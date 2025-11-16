@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es" 
+      xmlns:th="http://www.thymeleaf.org"     
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/master}">
+<head>
+    <title>Mesas Disponibles - Sabor Gourmet</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="container mt-4">
+            <h1 class="text-center mb-4">Mesas Disponibles</h1>
+
+            <!-- Contenedor para las tarjetas de mesas -->
+            <div class="row">
+                <!-- Mensaje si no hay mesas disponibles -->
+                <div th:if="${#lists.isEmpty(mesas)}" class="col-12">
+                    <div class="alert alert-warning text-center" role="alert">
+                        Lo sentimos, no hay mesas disponibles en este momento.
+                    </div>
+                </div>
+
+                <!-- Iterar sobre la lista de mesas y mostrar una tarjeta para cada una -->
+                <div th:each="mesa : ${mesas}" class="col-md-4 col-lg-3 mb-4">
+                    <div class="card h-100 text-center shadow-sm">
+                        <div class="card-body d-flex flex-column">
+                            <i class="fa-solid fa-chair fa-3x text-success mb-3"></i>
+                            <h5 class="card-title">Mesa N° <span th:text="${mesa.numero}">1</span></h5>
+                            <p class="card-text mb-auto">
+                                Capacidad para <strong th:text="${mesa.capacidad}">4</strong> personas.
+                            </p>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

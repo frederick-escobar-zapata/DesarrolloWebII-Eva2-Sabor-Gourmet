@@ -1,0 +1,71 @@
+/* Estilo general */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #343a40;
+    margin-bottom: 20px;
+}
+
+h4 {
+    color: #495057;
+    margin-bottom: 10px;
+}
+
+/* Calendario */
+.calendar-container {
+    margin-bottom: 20px;
+}
+
+.calendar-container input {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #28a745;
+    border-radius: 4px;
+    background: #f8fff8;
+    font-size: 16px;
+    color: #155724;
+}
+
+/* Cantidad de Personas */
+.people-container {
+    margin-bottom: 20px;
+}
+
+.people-container select {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #007bff;
+    border-radius: 4px;
+    background: #e9f7fe;
+    font-size: 16px;
+    color: #004085;
+}
+
+/* Menú */
+.menu-container {
+    margin-bottom: 20px;
+}
+
+.menu-container select {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #ffc107;
+    border-radius: 4px;
+    background: #fffbea;
+    font-size: 16px;
+    color: #856404;
+}

@@ -1,0 +1,25 @@
+/* ==================== FOOTER STYLES ==================== */
+
+footer {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    border-top: 4px solid #fd7e14;
+}
+
+footer h5 {
+    color: #fd7e14;
+    font-weight: 700;
+    font-size: 1.1rem; /* Tamaño de título más pequeño */
+}
+
+footer p, footer a {
+    font-size: 0.85rem; /* Tamaño de texto más pequeño */
+}
+
+footer .social-links a {
+    font-size: 1rem; /* Tamaño de iconos sociales */
+    transition: color 0.3s ease;
+}
+
+footer .social-links a:hover {
+    color: #fd7e14 !important;
+}

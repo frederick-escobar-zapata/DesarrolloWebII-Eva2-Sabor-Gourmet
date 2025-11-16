@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/master}">
+<head>
+    <title>Disponibilidad de Mesas - Sabor Gourmet</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container mt-4">
+        <h1 class="mb-4">Disponibilidad de Mesas</h1>
+
+        <!-- Filtros -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <form th:action="@{/admin/disponibilidad}" method="get" class="row g-3 align-items-end">
+                    <div class="col-md-4">
+                        <label for="fecha" class="form-label fw-bold">Fecha</label>
+                        <input type="date" id="fecha" name="fecha" class="form-control"
+                               th:value="${fecha}">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="tipoMenu" class="form-label fw-bold">Tipo de reserva</label>
+                        <select id="tipoMenu" name="tipoMenu" class="form-select">
+                            <option value="" disabled th:selected="${tipoMenu == null}">-- Seleccione --</option>
+                            <option value="desayuno" th:selected="${tipoMenu == 'desayuno'}">Desayuno</option>
+                            <option value="almuerzo" th:selected="${tipoMenu == 'almuerzo'}">Almuerzo</option>
+                            <option value="once" th:selected="${tipoMenu == 'once'}">Once</option>
+                            <option value="cena" th:selected="${tipoMenu == 'cena'}">Cena</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-primary w-100">Buscar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Resultados -->
+        <div th:if="${disponibilidad != null}">
+            <h2 class="mb-3">Resultados</h2>
+            <div class="row">
+                <div th:each="entry : ${disponibilidad.entrySet()}" class="col-md-4 col-lg-3 mb-3">
+                    <div class="card h-100"
+                         th:classappend="${entry.value} ? 'border-danger bg-light' : 'border-success bg-white'">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">
+                                Mesa N° <span th:text="${entry.key.id}">1</span>
+                            </h5>
+                            <p class="card-text">
+                                Capacidad: <strong th:text="${entry.key.capacidad}">4</strong> personas
+                            </p>
+                            <p>
+                                <span th:if="${entry.value}" class="badge bg-danger">Ocupada</span>
+                                <span th:unless="${entry.value}" class="badge bg-success">Disponible</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div th:if="${#maps.isEmpty(disponibilidad)}" class="col-12">
+                    <div class="alert alert-info text-center">
+                        No hay mesas configuradas.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

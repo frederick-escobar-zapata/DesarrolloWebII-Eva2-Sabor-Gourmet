@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/master}">
+<head>
+    <title>Datos del Cliente - Confirmar Reserva</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container mt-4">
+        <h2 class="mb-4 text-center">Confirmar Reserva</h2>
+
+        
+
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form th:action="@{/reservar/cliente}" th:object="${cliente}" method="post">
+                    <!-- Datos ocultos de la reserva -->
+                    <input type="hidden" name="mesaId" th:value="${mesa.id}">
+                    <input type="hidden" name="fecha" th:value="${fecha}">
+                    <input type="hidden" name="cantidadPersonas" th:value="${cantidadPersonas}">
+                    <input type="hidden" name="tipoMenu" th:value="${tipoMenu}">
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Nombre</label>
+                        <input type="text" class="form-control" th:field="*{nombre}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Apellido</label>
+                        <input type="text" class="form-control" th:field="*{apellido}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Email</label>
+                        <input type="email" class="form-control" th:field="*{email}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Teléfono</label>
+                        <input type="text" class="form-control" th:field="*{telefono}" required>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success">
+                            Guardar reserva
+                        </button>
+                        <a href="/" class="btn btn-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

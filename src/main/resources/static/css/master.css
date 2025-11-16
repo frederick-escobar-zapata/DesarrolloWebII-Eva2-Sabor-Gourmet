@@ -1,0 +1,77 @@
+/* ==================== MASTER LAYOUT STYLES ==================== */
+
+/* Navbar: compacto y profesional */
+.navbar-custom {
+    padding: 0.6rem 1rem !important;
+    min-height: 64px; /* más alto */
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border-bottom: 3px solid #fd7e14;
+}
+.navbar-custom .navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.25rem; /* más grande */
+    font-weight: 700;
+    color: #fd7e14 !important;
+    padding: 0.25rem 0;
+}
+.navbar-custom .navbar-brand img {
+    height: 48px; /* logo más grande */
+    width: auto;
+    display: inline-block;
+}
+.navbar-custom .nav-link {
+    font-size: 0.85rem;
+    padding: 0.25rem 0.45rem;
+    color: #495057 !important;
+}
+.navbar-custom .nav-link:hover {
+    color: #fd7e14 !important;
+}
+
+/* Icons on right */
+.nav-icons .btn {
+    color: #495057;
+    padding: 0.25rem 0.4rem;
+    font-size: 1.05rem; /* un poco más grandes */
+}
+.nav-icons .btn:hover {
+    color: #fd7e14;
+}
+.nav-badge {
+    font-size: 0.65rem;
+    vertical-align: super;
+    margin-left: 0.15rem;
+}
+
+/* Ensure main spacing depends on CSS (no inline forcing) */
+main {
+    padding-top: 90px; /* compensa la altura del navbar */
+}
+
+/* Footer profesional */
+/* Estilos movidos a footer.css */
+
+/* Minor responsive tweaks */
+@media (max-width: 576px) {
+    .navbar-custom {
+        padding: 0.5rem 0.8rem !important;
+        min-height: 72px;
+    }
+    .navbar-custom .navbar-brand img {
+        height: 42px;
+    }
+    main { padding-top: 100px; } /* allow toggler height on small screens */
+}
+
+/* Optional small/compact header variant (useful if you want it even tighter) */
+.navbar-custom.navbar-compact {
+    padding: 0.4rem 0.6rem !important;
+    min-height: 56px;
+}
+.navbar-custom.navbar-compact .navbar-brand { font-size: 1.1rem; }
+.navbar-custom.navbar-compact .nav-link { font-size: 0.95rem; padding: 0.3rem 0.5rem; }
+
+/* End of master layout styles */

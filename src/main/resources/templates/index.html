@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es" 
+xmlns:th="http://www.thymeleaf.org"     
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{layout/master}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reserva de Mesas - Sabor Gourmet</title>
+    <!-- Los estilos y scripts principales ya están en master.html -->
+</head>
+<body>
+    <div layout:fragment="content">
+        <!-- Hero Section -->
+        <section class="hero-section text-white text-center">
+            <div class="container">
+                <h1 class="display-4 fw-bold">Una Experiencia Inolvidable</h1>
+                <p class="lead">Reserva tu mesa y déjate llevar por los sabores.</p>
+            </div>
+        </section>
+
+        <!-- Reservation Form Section -->
+        <div class="container reservation-form-container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card shadow-lg border-0">
+                        <div class="card-body p-4 p-md-5">
+                            <h2 class="card-title text-center mb-4">Reservar una Mesa</h2>
+
+                            <!-- Formulario de Reserva con ID -->
+                            <form id="reservaForm" th:action="@{/reservar}" method="post">
+                                <!-- Campo de Fecha -->
+                                <div class="mb-4">
+                                    <label for="fechaReserva" class="form-label fw-bold">Seleccione una fecha para su reserva:</label>
+                                    <input type="date" class="form-control" id="fechaReserva" name="fechaReserva">
+                                    <div id="fechaError" class="text-danger mt-2" style="font-size: 0.9rem;"></div>
+                                </div>
+
+                                <!-- Campo Cantidad de Personas -->
+                                <div class="mb-4">
+                                    <label for="cantidadPersonas" class="form-label fw-bold">Número de personas:</label>
+                                    <select class="form-select" id="cantidadPersonas" name="cantidadPersonas">
+                                        <option selected disabled>-- Seleccione cantidad --</option>
+                                        <option value="1">1 persona</option>
+                                        <option value="2">2 personas</option>
+                                        <option value="3">3 personas</option>
+                                        <option value="4">4 personas</option>
+                                        <option value="5">5 personas</option>
+                                        <option value="6">6 o más personas</option>
+                                    </select>
+                                </div>
+
+                                <!-- Campo Tipo de Menú -->
+                                <div class="mb-4">
+                                    <label for="tipoMenu" class="form-label fw-bold">Tipo de comida:</label>
+                                    <select class="form-select" id="tipoMenu" name="tipoMenu">
+                                        <option selected disabled>-- Seleccione un menú --</option>
+                                        <option value="desayuno">Desayuno</option>
+                                        <option value="almuerzo">Almuerzo</option>
+                                        <option value="once">Once</option>
+                                        <option value="cena">Cena</option>
+                                    </select>
+                                </div>
+
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary btn-lg btn-reserve">Buscar Disponibilidad / Reservar</button>
+                                </div>
+                            </form>
+
+                            <!-- Mostrar mensaje de resultado si viene del backend -->
+                            <div id="resultadoBusqueda" class="mt-4">
+                                <div id="mensajeResultado" th:if="${mensaje != null}" th:text="${mensaje}"></div>
+                            </div>
+
+                            <!-- Listado de mesas candidatas (Paso 1: sólo mostrar disponibilidad) -->
+                            <div class="mt-4" th:if="${mesasCandidatas != null}">
+                                <h3 class="mb-3">Mesas disponibles para su búsqueda</h3>
+                                <div class="row">
+                                    <div th:each="mesa : ${mesasCandidatas}" class="col-md-4 col-lg-3 mb-3">
+                                        <div class="card h-100 text-center shadow-sm border-success bg-white">
+                                            <div class="card-header bg-success bg-opacity-10">
+                                                <h5 class="mb-0">
+                                                    <i class="fa-solid fa-chair me-2 text-success"></i>
+                                                    Mesa N° <span th:text="${mesa.id}">1</span>
+                                                </h5>
+                                            </div>
+                                            <div class="card-body d-flex flex-column">
+                                                <p class="card-text mb-2">
+                                                    <i class="fa-solid fa-users me-2 text-primary"></i>
+                                                    Capacidad: <strong th:text="${mesa.capacidad}">4</strong> personas
+                                                </p>
+                                                <p class="card-text mt-2 mb-3">
+                                                    <span class="badge bg-success">
+                                                        <i class="fa-solid fa-check me-1"></i>Disponible
+                                                    </span>
+                                                </p>
+
+                                                <!-- Botón para ir al formulario de cliente (Paso 2) -->
+                                                <form th:action="@{/reservar/cliente}" method="get" class="mt-auto">
+                                                    <input type="hidden" name="mesaId" th:value="${mesa.id}">
+                                                    <input type="hidden" name="fecha" th:value="${fechaSeleccionada}">
+                                                    <input type="hidden" name="cantidadPersonas" th:value="${cantidadSeleccionada}">
+                                                    <input type="hidden" name="tipoMenu" th:value="${tipoMenuSeleccionado}">
+                                                    <button type="submit" class="btn btn-outline-primary w-100">
+                                                        Confirmar esta mesa
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div th:if="${#lists.isEmpty(mesasCandidatas)}" class="col-12">
+                                        <div class="alert alert-info text-center">
+                                            No se encontraron mesas disponibles para los criterios seleccionados.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Puedes seguir usando reservas.js solo para validación de fecha si quieres,
+             pero el submit ahora va al backend. -->
+        <script src="/js/reservas.js"></script>
+    </div>
+</body>
+</html>
