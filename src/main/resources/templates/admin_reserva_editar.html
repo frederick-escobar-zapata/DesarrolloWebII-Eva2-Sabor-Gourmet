@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/master}">
+<head>
+    <title>Editar Reserva - Sabor Gourmet</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container mt-4">
+        <h2 class="mb-4">Editar Reserva</h2>
+
+        <div th:if="${mensajeError != null}" class="alert alert-danger">
+            <span th:text="${mensajeError}">Error</span>
+        </div>
+
+        <form id="reservaForm"
+              th:action="@{/admin/reservas/editar/{id}(id=${reserva.id})}"
+              th:object="${reserva}"
+              method="post"
+              class="col-md-6">
+
+            <!-- ID solo lectura / deshabilitado -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">ID Reserva</label>
+                <!-- campo deshabilitado solo para mostrar -->
+                <input type="text"
+                       class="form-control"
+                       th:value="${reserva.id}"
+                       disabled>
+                <!-- campo oculto para que el id viaje si hiciera falta -->
+                <input type="hidden" th:field="*{id}">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Fecha</label>
+                <!-- usamos el mismo id que en index.html para que reservas.js funcione aqui tambien -->
+                <input type="date"
+                       class="form-control"
+                       id="fechaReserva"
+                       th:field="*{fecha}">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Tipo de menú</label>
+                <select class="form-select" th:field="*{tipoMenu}">
+                    <option th:value="DESAYUNO">Desayuno</option>
+                    <option th:value="ALMUERZO">Almuerzo</option>
+                    <option th:value="ONCE">Once</option>
+                    <option th:value="CENA">Cena</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Cantidad de personas</label>
+                <input type="number" class="form-control" th:field="*{cantidadPersonas}" min="1">
+            </div>
+
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-success">Guardar cambios</button>
+                <a th:href="@{/admin/mesas/eliminarReserva/{id}(id=${reserva.mesa.id})}"
+                   class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+        
+    </div>
+    
+</div>
+
+<!-- reutilizamos el mismo JS que ya pone min=hoy en el input con id fechaReserva -->
+<script src="/js/reservas.js"></script>
+</body>
+</html>

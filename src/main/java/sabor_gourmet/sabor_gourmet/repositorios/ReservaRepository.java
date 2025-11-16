@@ -10,6 +10,10 @@ import java.util.List;
 
 @Repository
 public interface ReservaRepository extends JpaRepository<Reserva, Long> {
-    // Para disponibilidad por fecha + tipo menú (lo usaremos para mostrar disponibilidad en /admin/disponibilidad)
+    // acqa tenemos la disponibilidad por fecha + tipo menú (lo usaremos para mostrar disponibilidad en /admin/disponibilidad)
     List<Reserva> findByFechaAndTipoMenu(LocalDate fecha, TipoMenu tipoMenu);
+    // aca devolvemos todas las reservas asociadas a una mesa (sin filtros de fecha ni tipo)
+    List<Reserva> findByMesaId(Long mesaId);
+
+    
 }

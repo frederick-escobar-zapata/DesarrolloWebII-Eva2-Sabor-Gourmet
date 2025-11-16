@@ -48,7 +48,7 @@
                                     <i class="fa-solid fa-check me-1"></i>Disponible
                                 </span>
                                 <span th:unless="${mesa.disponible}" class="badge bg-danger">
-                                    <i class="fa-solid fa-times me-1"></i>Ocupada
+                                    <i class="fa-solid fa-times me-1"></i>No Disponible
                                 </span>
                             </p>
                         </div>
@@ -73,6 +73,11 @@
                                         <i class="fa-solid fa-trash me-1"></i>Eliminar
                                     </button>
                                 </form>
+                                <!-- aca tengo boton para Eliminar la reservar, ojo se eleminira solo la reserva, ya que el cliente puede tener mas reservas-->
+                                <a th:href="@{/admin/mesas/eliminarReserva/{id}(id=${mesa.id})}"
+                                   class="btn btn-secondary btn-sm w-100">
+                                    <i class="fa-solid fa-book-open me-1"></i>Reservas
+                                </a>
                             </div>
                         </div>
                     </div>

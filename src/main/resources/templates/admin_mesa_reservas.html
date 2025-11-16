@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/master}">
+<head>
+    <title>Reservas de la Mesa - Sabor Gourmet</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>
+                Reservas de la Mesa N° <span th:text="${mesa.id}">1</span>
+            </h2>
+            <a href="/admin/mesas" class="btn btn-secondary">
+                Volver a Administración de Mesas
+            </a>
+        </div>
+
+        <p>
+            Capacidad: <strong th:text="${mesa.capacidad}">4</strong> personas,
+            Estado:
+            <span th:if="${mesa.disponible}" class="badge bg-success">Disponible</span>
+            <span th:unless="${mesa.disponible}" class="badge bg-danger">No Disponible</span>
+        </p>
+
+        <div th:if="${#lists.isEmpty(reservas)}" class="alert alert-info">
+            Esta mesa no tiene reservas registradas.
+        </div>
+
+        <table th:if="${!#lists.isEmpty(reservas)}" class="table table-striped table-hover mt-3">
+            <thead>
+            <tr>
+                <th>ID Reserva</th>
+                <th>Fecha</th>
+                <th>Tipo de Menú</th>
+                <th>Cantidad Personas</th>
+                <th>Cliente</th>
+                <th class="text-center">Editar</th>
+                <th class="text-center">Eliminar</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="res : ${reservas}">
+                <td th:text="${res.id}">1</td>
+                <td th:text="${res.fecha}">2025-11-14</td>
+                <td th:text="${res.tipoMenu}">CENA</td>
+                <td th:text="${res.cantidadPersonas}">6</td>
+                <td th:text="${res.cliente != null ? res.cliente.nombre + ' ' + res.cliente.apellido : 'Sin cliente'}">
+                    Juan Perez
+                </td>
+
+                <!-- editar -->
+                <td class="text-center">
+                    <form th:action="@{/admin/reservas/editar/{id}(id=${res.id})}" method="get" class="d-inline">
+                        <button type="submit" class="btn btn-primary btn-sm" title="Editar reserva">
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+                    </form>
+                </td>
+
+                <!-- eliminar -->
+                <td class="text-center">
+                    <form th:action="@{/admin/reservas/eliminar/{id}(id=${res.id})}"
+                          method="post"
+                          class="d-inline"
+                          th:onsubmit="|return confirm('¿Está seguro de que desea eliminar la reserva ID ${res.id}?');|">
+                        <button type="submit" class="btn btn-danger btn-sm" title="Eliminar reserva">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

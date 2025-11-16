@@ -180,4 +180,15 @@ public class ReservaServicio {
         // aca devolvemos la reserva envuelta en Optional 
         return Optional.of(guardada);
     }
+
+
+    // aca devolvemos todas las reservas de una mesa sin filtros (todas las fechas y tipos)
+    public List<Reserva> obtenerReservasPorMesa(Long mesaId) {
+        if (mesaId == null) {
+            return List.of(); // lista vacia si viene null
+        }
+        return reservaRepository.findByMesaId(mesaId);
+    }
+
+    
 }

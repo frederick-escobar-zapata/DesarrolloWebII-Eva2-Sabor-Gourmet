@@ -2,10 +2,13 @@ package sabor_gourmet.sabor_gourmet.controladores;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import sabor_gourmet.sabor_gourmet.servicios.ReservaServicio;
 import sabor_gourmet.sabor_gourmet.modelos.Mesas;
+import sabor_gourmet.sabor_gourmet.modelos.Reserva;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin/mesas")
@@ -57,5 +60,23 @@ public class MesasController {
     public String eliminarMesa(@PathVariable Long id) {
         reservaservicio.eliminarMesa(id);
         return "redirect:/admin/mesas";
+    }
+
+    // aca cuando presiono el boton "Reservas" o cuando redirijo desde eliminar/editar reserva,
+    // muestro todas las reservas de esa mesa
+    @GetMapping("/eliminarReserva/{id}")
+    public String verReservasDeMesa(@PathVariable("id") Long mesaId, Model model) {
+        Optional<Mesas> mesaOpt = reservaservicio.obtenerMesaPorId(mesaId);
+        if (mesaOpt.isEmpty()) {
+            model.addAttribute("mensaje", "La mesa seleccionada no existe.");
+            return "admin_mesas";
+        }
+
+        List<Reserva> reservas = reservaservicio.obtenerReservasPorMesa(mesaId);
+
+        model.addAttribute("mesa", mesaOpt.get());
+        model.addAttribute("reservas", reservas);
+
+        return "admin_mesa_reservas";
     }
 }

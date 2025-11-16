@@ -52,7 +52,7 @@
                                 Capacidad: <strong th:text="${entry.key.capacidad}">4</strong> personas
                             </p>
                             <p>
-                                <span th:if="${entry.value}" class="badge bg-danger">Ocupada</span>
+                                <span th:if="${entry.value}" class="badge bg-danger">No disponible</span>
                                 <span th:unless="${entry.value}" class="badge bg-success">Disponible</span>
                             </p>
                         </div>
@@ -60,7 +60,7 @@
                 </div>
                 <div th:if="${#maps.isEmpty(disponibilidad)}" class="col-12">
                     <div class="alert alert-info text-center">
-                        No hay mesas configuradas.
+                        No hay mesas Habilitadas.
                     </div>
                 </div>
             </div>
