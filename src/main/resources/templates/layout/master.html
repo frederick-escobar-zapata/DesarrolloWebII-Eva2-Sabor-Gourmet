@@ -17,6 +17,8 @@
         <link rel="stylesheet" href="/css/master.css">
         <link rel="stylesheet" href="/css/reservas.css">
         <link rel="stylesheet" href="/css/footer.css">
+        <!-- Flatpickr datepicker (CDN) -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 
 <body class="d-flex flex-column min-vh-100">
@@ -35,18 +37,18 @@
                         </button>
 
                         <div class="collapse navbar-collapse" id="navbarNav">
-                                <ul class="navbar-nav ms-auto align-items-center">
-                                        <li class="nav-item">
-                                                <a class="nav-link active" aria-current="page" href="/"><i class="fa-solid fa-house me-1"></i>Inicio</a>
+                                <ul class="navbar-nav ms-auto align-items-center" id="mainNavList">
+                                        <!-- public: mostrar salvo que estemos en / o en /admin -->
+                                        <li class="nav-item nav-home" th:if="${requestUri != null and requestUri != '/' and !requestUri.startsWith('/admin')}">
+                                                <a class="nav-link active" aria-current="page" th:href="@{/}"><i class="fa-solid fa-house me-1"></i>Inicio</a>
                                         </li>
-                                        <li class="nav-item">
-                                                <a class="nav-link" href="/reservas"><i class="fa-solid fa-calendar-check me-1"></i>Reservas</a>
+
+                                        <!-- admin: visible solo en /admin/** -->
+                                        <li class="nav-item nav-admin nav-admin-mesas" th:if="${requestUri != null and requestUri.startsWith('/admin')}">
+                                                <a class="nav-link" th:href="@{/admin/mesas}"><i class="fa-solid fa-table me-1"></i>Mesas</a>
                                         </li>
-                                        <li class="nav-item">
-                                                <a class="nav-link" href="/menu"><i class="fa-solid fa-book-open me-1"></i>Menú</a>
-                                        </li>
-                                        <li class="nav-item">
-                                                <a class="nav-link" href="/contacto"><i class="fa-solid fa-envelope me-1"></i>Contacto</a>
+                                        <li class="nav-item nav-admin nav-admin-reservas" th:if="${requestUri != null and requestUri.startsWith('/admin')}">
+                                                <a class="nav-link" th:href="@{/admin/reservas}"><i class="fa-solid fa-list-check me-1"></i>Reservas</a>
                                         </li>
                                 </ul>
                                 
@@ -73,8 +75,16 @@
                 </div>
         </footer>
 
-        <!-- Bootstrap JS bundle -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+                <!-- Bootstrap JS bundle -->
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+                <!-- Flatpickr JS -->
+                <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+                <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+                <!-- Reservas script (cargado después de flatpickr) -->
+                <script src="/js/reservas.js"></script>
+
+                <!-- Script específico para la página de confirmar reserva -->
+                <script th:if="${requestUri != null and #strings.contains(requestUri, '/reservar/cliente')}" src="/js/reservar_cliente.js"></script>
 </body>
 
 </html>

@@ -14,13 +14,13 @@ public class HomeController {
 
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("mesas", mesasRepository.findAll());
+        // ruta raíz: index
         return "index";
     }
 
     @GetMapping("/reservas")
     public String reservas(Model model) {
         model.addAttribute("mesas", mesasRepository.findAll());
-        return "index"; 
+        return "clientes"; 
     }
 }

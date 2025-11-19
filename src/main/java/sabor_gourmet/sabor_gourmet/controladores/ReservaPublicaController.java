@@ -19,6 +19,10 @@ public class ReservaPublicaController {
 
     @Autowired
     private ReservaServicio reservaServicio; // aca tenemos el servicio que hace toda la pega de logica de negocio
+        @Autowired
+        private sabor_gourmet.sabor_gourmet.repositorios.MesasRepository mesasRepository;
+        @Autowired
+        private sabor_gourmet.sabor_gourmet.repositorios.ReservaRepository reservaRepository;
 
     @GetMapping("/reservar")
     // aca si alguien entra a /reservar por GET, lo mandamos de vuelta al home
@@ -71,9 +75,66 @@ public class ReservaPublicaController {
         // aca guardamos la lista de mesas que se mostraran en tarjetas
         model.addAttribute("mesasCandidatas", mesasCandidatas);
 
-        // aca volvemos al index para mostrar resultados debajo del formulario
-        return "index";
+        // volver a la vista de clientes con resultados
+        return "clientes";
     }
+
+        @GetMapping("/reservas/available")
+        @ResponseBody
+        public java.util.Map<String, Object> disponibilidadPorFecha(
+                        @RequestParam("fecha")
+                        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                        java.time.LocalDate fecha) {
+
+                java.util.Map<String, Object> respuesta = new java.util.HashMap<>();
+                if (fecha == null) {
+                        respuesta.put("count", 0);
+                        respuesta.put("mesas", java.util.List.of());
+                        return respuesta;
+                }
+
+                // traer mesas activas
+                java.util.List<sabor_gourmet.sabor_gourmet.modelos.Mesas> mesas = mesasRepository.findByDisponibleTrue();
+
+                // traer reservas para la fecha
+                java.util.List<sabor_gourmet.sabor_gourmet.modelos.Reserva> reservasEnFecha = reservaRepository.findByFecha(fecha);
+
+                // map mesaId -> set de tipos de menu reservados
+                java.util.Map<Long, java.util.Set<sabor_gourmet.sabor_gourmet.modelos.TipoMenu>> reservadosPorMesa = new java.util.HashMap<>();
+                for (sabor_gourmet.sabor_gourmet.modelos.Reserva r : reservasEnFecha) {
+                        Long mid = r.getMesa().getId();
+                        reservadosPorMesa.computeIfAbsent(mid, k -> new java.util.HashSet<>()).add(r.getTipoMenu());
+                }
+
+                java.util.List<java.util.Map<String, Object>> mesasResp = new java.util.ArrayList<>();
+                for (sabor_gourmet.sabor_gourmet.modelos.Mesas m : mesas) {
+                        java.util.Map<String, Object> mm = new java.util.HashMap<>();
+                        mm.put("id", m.getId());
+                        // si el campo 'numero' no está seteado (0), mostramos el id como fallback
+                        mm.put("numero", m.getNumero() != 0 ? m.getNumero() : m.getId());
+                        mm.put("capacidad", m.getCapacidad());
+
+                        java.util.List<String> disponibles = new java.util.ArrayList<>();
+                        for (sabor_gourmet.sabor_gourmet.modelos.TipoMenu tm : sabor_gourmet.sabor_gourmet.modelos.TipoMenu.values()) {
+                                java.util.Set<sabor_gourmet.sabor_gourmet.modelos.TipoMenu> reservados = reservadosPorMesa.getOrDefault(m.getId(), java.util.Set.of());
+                                if (!reservados.contains(tm)) {
+                                        disponibles.add(tm.name().toLowerCase());
+                                }
+                        }
+                        mm.put("availableTipos", disponibles);
+                        mesasResp.add(mm);
+                }
+
+                // count mesas that have at least one available tipo
+                long count = mesas.stream().filter(m -> {
+                        java.util.Set<sabor_gourmet.sabor_gourmet.modelos.TipoMenu> reservados = reservadosPorMesa.getOrDefault(m.getId(), java.util.Set.of());
+                        return reservados.size() < sabor_gourmet.sabor_gourmet.modelos.TipoMenu.values().length;
+                }).count();
+
+                respuesta.put("count", count);
+                respuesta.put("mesas", mesasResp);
+                return respuesta;
+        }
 
     @GetMapping("/reservar/cliente")
     // luego aca mostramos el formulario con datos de cliente para la mesa seleccionada
@@ -94,10 +155,10 @@ public class ReservaPublicaController {
         // aca buscamos la mesa en la BD
         Optional<Mesas> mesaOpt = reservaServicio.obtenerMesaPorId(mesaId);
         if (mesaOpt.isEmpty()) {
-            // si no existe, mostramos error simple en index
+            // si no existe, mostrar mensaje en clientes
             System.out.println("[GET /reservar/cliente] mesa no encontrada");
             model.addAttribute("mensaje", "La mesa seleccionada no existe.");
-            return "index";
+            return "clientes";
         }
         // si existe, seguimos adelante
         Mesas mesa = mesaOpt.get();
@@ -143,21 +204,26 @@ public class ReservaPublicaController {
                 fecha, tipoMenuEnum, cantidadPersonas, mesaId, cliente);
 
         if (reservaOpt.isEmpty()) {
-            // aca si algo salio mal (mesa inexistente, datos null, etc)
+            // si algo sale mal, volver a clientes con mensaje
             System.out.println("[POST /reservar/cliente] crearReservaConCliente devolvió empty");
             model.addAttribute("mensaje", "No fue posible crear la reserva. Intente nuevamente.");
-            return "index";
+            return "clientes";
         }
 
-        // aca si todo OK, mostramos un mensaje de confirmacion
+        // aca si todo OK, devolver la misma vista de confirmación con la reserva creada
         Reserva reserva = reservaOpt.get();
-        model.addAttribute("mensaje",
-                "Reserva confirmada para " + reserva.getFecha() +
-                        ", " + reserva.getTipoMenu() +
-                        ", mesa N° " + reserva.getMesa().getId() +
-                        ", a nombre de " + reserva.getCliente().getNombre());
+        // pasar la reserva creada a la vista para mostrar el modal
+        model.addAttribute("reservaConfirmada", reserva);
+        model.addAttribute("showConfirmModal", true);
 
-        // volvemos al index con el mensaje arriba
-        return "index";
+        // también rellenar los datos necesarios en el modelo para la vista
+        model.addAttribute("mesa", reserva.getMesa());
+        model.addAttribute("fecha", reserva.getFecha());
+        model.addAttribute("cantidadPersonas", reserva.getCantidadPersonas());
+        model.addAttribute("tipoMenu", reserva.getTipoMenu().name().toLowerCase());
+        model.addAttribute("cliente", reserva.getCliente());
+
+        // regresar a la vista de confirmar cliente (la misma página) para mostrar modal
+        return "reservar_cliente";
     }
 }

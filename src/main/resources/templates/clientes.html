@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/master}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reserva de Mesas - Sabor Gourmet</title>
+    <!-- Los estilos y scripts principales ya están en master.html -->
+</head>
+<body>
+    <div layout:fragment="content">
+        <!-- Hero Section -->
+        <section class="hero-section text-white text-center">
+            <div class="container">
+                <h1 class="display-4 fw-bold">Una Experiencia Inolvidable</h1>
+                <p class="lead">Reserva tu mesa y déjate llevar por los sabores.</p>
+            </div>
+        </section>
+
+        <!-- Reservation Form Section -->
+        <div class="container reservation-form-container">
+            <div class="row">
+                <div class="col-lg-6 mt-4 mb-4">
+                    <div class="card shadow-lg border-0 h-100">
+                        <div class="card-body p-4 p-md-5">
+                            <h2 class="card-title text-center mb-4">Reservar una Mesa</h2>
+
+                            <!-- Formulario de Reserva con ID -->
+                            <form id="reservaForm" th:action="@{/reservar}" method="post">
+                                <!-- Campo de Fecha -->
+                                <div class="mb-4">
+                                    <label for="fechaReserva" class="form-label fw-bold">Seleccione una fecha para su reserva:</label>
+                                    <input type="text" class="form-control" id="fechaReserva" name="fechaReserva" placeholder="Seleccione una fecha" autocomplete="off">
+                                    <div id="fechaError" class="text-danger mt-2" style="font-size: 0.9rem;"></div>
+                                </div>
+
+                                <!-- Campo Cantidad de Personas -->
+                                <div class="mb-4">
+                                    <label for="cantidadPersonas" class="form-label fw-bold">Número de personas:</label>
+                                    <select class="form-select" id="cantidadPersonas" name="cantidadPersonas">
+                                        <option value="" selected disabled>-- Seleccione cantidad --</option>
+                                        <option value="1">1 persona</option>
+                                        <option value="2">2 personas</option>
+                                        <option value="3">3 personas</option>
+                                        <option value="4">4 personas</option>
+                                        <option value="5">5 personas</option>
+                                        <option value="6">6 o más personas</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-2 text-muted small">Selecciona fecha y número de personas, luego haz clic en el tipo de comida disponible a la derecha para buscar y reservar.</div>
+                            </form>
+
+                            <!-- Mostrar mensaje de resultado si viene del backend -->
+                            <div id="resultadoBusqueda" class="mt-4">
+                                <div id="mensajeResultado" th:if="${mensaje != null}" th:text="${mensaje}"></div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 mt-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body p-4">
+                            <h4 class="card-title">Mesas disponibles para la fecha</h4>
+                            <p class="text-muted">Seleccione una fecha en el formulario para ver la disponibilidad en tiempo real.</p>
+
+                            <div id="availabilityPanel">
+                                <div class="mb-3">
+                                    <strong>Cantidad disponible:</strong>
+                                    <span id="availCount">-</span>
+                                </div>
+
+                                <div id="availList" class="row"></div>
+                            </div>
+
+                            <div class="mt-4" th:if="${mesasCandidatas != null}">
+                                <h5 class="mb-3">Mesas candidatas según su búsqueda</h5>
+                                <div class="row">
+                                    <div th:each="mesa : ${mesasCandidatas}" class="col-md-6 mb-3">
+                                        <div class="card h-100 text-center shadow-sm border-success bg-white">
+                                            <div class="card-body d-flex flex-column">
+                                                <h6 class="mb-2">Mesa N° <span th:text="${mesa.numero}">1</span></h6>
+                                                <p class="mb-2">Capacidad: <strong th:text="${mesa.capacidad}">4</strong></p>
+                                                <form th:action="@{/reservar/cliente}" method="get" class="mt-auto">
+                                                    <input type="hidden" name="mesaId" th:value="${mesa.id}">
+                                                    <input type="hidden" name="fecha" th:value="${fechaSeleccionada}">
+                                                    <input type="hidden" name="cantidadPersonas" th:value="${cantidadSeleccionada}">
+                                                    <input type="hidden" name="tipoMenu" th:value="${tipoMenuSeleccionado}">
+                                                    <button type="submit" class="btn btn-outline-primary w-100">Confirmar esta mesa</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </body>
+    </html>

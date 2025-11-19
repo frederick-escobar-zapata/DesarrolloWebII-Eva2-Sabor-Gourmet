@@ -11,11 +11,17 @@
     <div class="container mt-4">
         <h2 class="mb-4 text-center">Confirmar Reserva</h2>
 
+        <div class="text-center mb-3">
+            <p class="mb-0">Mesa N° <strong th:text="${mesa.numero != 0 ? mesa.numero : mesa.id}">1</strong>
+                — Tipo: <strong th:text="${tipoMenu}">TIPO</strong>
+                — Fecha: <strong th:text="${#temporals.format(fecha, 'dd/MM/yyyy')}">18/11/2025</strong></p>
+        </div>
+
         
 
         <div class="row justify-content-center">
             <div class="col-md-6">
-                <form th:action="@{/reservar/cliente}" th:object="${cliente}" method="post">
+                <form id="clienteForm" th:action="@{/reservar/cliente}" th:object="${cliente}" method="post" novalidate>
                     <!-- Datos ocultos de la reserva -->
                     <input type="hidden" name="mesaId" th:value="${mesa.id}">
                     <input type="hidden" name="fecha" th:value="${fecha}">
@@ -23,24 +29,26 @@
                     <input type="hidden" name="tipoMenu" th:value="${tipoMenu}">
 
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Nombre</label>
-                        <input type="text" class="form-control" th:field="*{nombre}" required>
+                        <label for="nombre" class="form-label fw-bold">Nombre</label>
+                        <input id="nombre" name="nombre" autocomplete="given-name" type="text" class="form-control" th:field="*{nombre}" placeholder="pepito" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Apellido</label>
-                        <input type="text" class="form-control" th:field="*{apellido}" required>
+                        <label for="apellido" class="form-label fw-bold">Apellido</label>
+                        <input id="apellido" name="apellido" autocomplete="family-name" type="text" class="form-control" th:field="*{apellido}" placeholder="perez" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Email</label>
-                        <input type="email" class="form-control" th:field="*{email}" required>
+                        <label for="email" class="form-label fw-bold">Email</label>
+                        <input id="email" name="email" autocomplete="email" type="email" class="form-control" th:field="*{email}" placeholder="correo@correo.cl" required>
+                        <div id="emailError" class="invalid-feedback d-none">Correo no válido.</div>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Teléfono</label>
-                        <input type="text" class="form-control" th:field="*{telefono}" required>
+                        <label for="telefono" class="form-label fw-bold">Teléfono</label>
+                        <input id="telefono" name="telefono" autocomplete="tel" type="tel" inputmode="numeric" pattern="\d{9}" maxlength="9" class="form-control" th:field="*{telefono}" placeholder="912345678" required>
+                        <div id="telefonoError" class="invalid-feedback d-none">Teléfono debe tener 9 dígitos numéricos.</div>
                     </div>
 
                     <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-success">
+                        <button id="submitBtn" type="submit" class="btn btn-success" disabled>
                             Guardar reserva
                         </button>
                         <a href="/" class="btn btn-secondary">Cancelar</a>
@@ -50,6 +58,32 @@
         </div>
 
     </div>
-</div>
+        <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true"
+                th:attr="data-server-show=${showConfirmModal}">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmModalLabel">Confirmación de reserva</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row mb-2">
+                                <div class="col"><strong>Mesa Nro:</strong> <span id="confMesa" th:text="${reservaConfirmada != null ? (reservaConfirmada.mesa.numero != 0 ? reservaConfirmada.mesa.numero : reservaConfirmada.mesa.id) : ''}"> </span></div>
+                                <div class="col"><strong>Comida:</strong> <span id="confTipo" th:text="${reservaConfirmada != null ? reservaConfirmada.tipoMenu : tipoMenu}"> </span></div>
+                                <div class="col"><strong>Fecha:</strong> <span id="confFecha" th:text="${reservaConfirmada != null ? #temporals.format(reservaConfirmada.fecha, 'dd/MM/yyyy') : ''}"> </span></div>
+                                <div class="col"><strong>Personas:</strong> <span id="confCantidad" th:text="${reservaConfirmada != null ? reservaConfirmada.cantidadPersonas : cantidadPersonas}"> </span></div>
+                            </div>
+                            <div class="row">
+                                <div class="col"><strong>Nombre:</strong>
+                                    <span id="confNombreApellido" th:text="${reservaConfirmada != null ? (reservaConfirmada.cliente.nombre + ' ' + reservaConfirmada.cliente.apellido) : (cliente.nombre + ' ' + cliente.apellido)}"> </span>
+                                </div>
+                                <div class="col"><strong>Email:</strong> <span id="confEmail" th:text="${reservaConfirmada != null ? reservaConfirmada.cliente.email : cliente.email}"> </span></div>
+                                <div class="col"><strong>Telefono:</strong> <span id="confTelefono" th:text="${reservaConfirmada != null ? reservaConfirmada.cliente.telefono : cliente.telefono}"> </span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 </body>
 </html>

@@ -14,6 +14,9 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long> {
     List<Reserva> findByFechaAndTipoMenu(LocalDate fecha, TipoMenu tipoMenu);
     // aca devolvemos todas las reservas asociadas a una mesa (sin filtros de fecha ni tipo)
     List<Reserva> findByMesaId(Long mesaId);
+    // devuelve todas las reservas para una fecha concreta (sin filtrar por tipo)
+    List<Reserva> findByFecha(java.time.LocalDate fecha);
 
-    
+    // Comprueba si ya existe una reserva para una mesa en una fecha y tipo específicos
+    boolean existsByMesaIdAndFechaAndTipoMenu(Long mesaId, java.time.LocalDate fecha, TipoMenu tipoMenu);
 }

@@ -133,6 +133,37 @@ public class ReservaServicio {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Devuelve la lista de mesas (activas) que no están reservadas en una fecha dada.
+     * No se filtra por tipo de menú ni por capacidad: es una vista general de disponibilidad por fecha.
+     */
+    public List<Mesas> obtenerMesasDisponiblesParaFecha(LocalDate fecha) {
+        if (fecha == null) {
+            return List.of();
+        }
+        // mesas activas en el sistema
+        List<Mesas> mesasDisponibles = mesasRepository.findByDisponibleTrue();
+
+        // reservas para esa fecha (cualquiera sea el tipo)
+        List<Reserva> reservasEnFecha = reservaRepository.findByFecha(fecha);
+
+        Set<Long> idsMesasOcupadas = reservasEnFecha.stream()
+                .map(r -> r.getMesa().getId())
+                .collect(Collectors.toSet());
+
+        return mesasDisponibles.stream()
+                .filter(m -> !idsMesasOcupadas.contains(m.getId()))
+                .sorted(Comparator.comparingLong(Mesas::getId))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Cuenta cuántas mesas activas están disponibles para una fecha específica.
+     */
+    public int contarMesasDisponiblesPorFecha(LocalDate fecha) {
+        return obtenerMesasDisponiblesParaFecha(fecha).size();
+    }
+
     // --- CREAR RESERVA + CLIENTE (Paso 2 /reservar/cliente) ---
 
     /**
@@ -158,6 +189,13 @@ public class ReservaServicio {
         Optional<Mesas> mesaOpt = mesasRepository.findById(mesaId);
         if (mesaOpt.isEmpty()) {
             System.out.println("[Servicio] Mesa no encontrada, retornando empty");
+            return Optional.empty();
+        }
+
+        // Verificar que no exista ya una reserva para la misma mesa, fecha y tipo
+        boolean yaReservada = reservaRepository.existsByMesaIdAndFechaAndTipoMenu(mesaId, fecha, tipoMenu);
+        if (yaReservada) {
+            System.out.println("[Servicio] La mesa ya está reservada para esa fecha y tipo, retornando empty");
             return Optional.empty();
         }
 

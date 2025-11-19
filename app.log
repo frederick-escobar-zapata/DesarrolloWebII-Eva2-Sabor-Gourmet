@@ -1,0 +1,212 @@
+nohup: ignoring input
+[INFO] Scanning for projects...
+[WARNING] 
+[WARNING] Some problems were encountered while building the effective model for sabor_gourmet:sabor_gourmet:jar:0.0.1-SNAPSHOT
+[WARNING] 'dependencies.dependency.(groupId:artifactId:type:classifier)' must be unique: org.springframework.boot:spring-boot-starter-data-jpa:jar -> duplicate declaration of version (?) @ line 72, column 15
+[WARNING] 'dependencies.dependency.(groupId:artifactId:type:classifier)' must be unique: org.postgresql:postgresql:jar -> duplicate declaration of version (?) @ line 85, column 15
+[WARNING] 'dependencies.dependency.(groupId:artifactId:type:classifier)' must be unique: org.springframework.boot:spring-boot-starter-web:jar -> duplicate declaration of version (?) @ line 92, column 15
+[WARNING] 'dependencies.dependency.(groupId:artifactId:type:classifier)' must be unique: org.springframework.boot:spring-boot-starter-thymeleaf:jar -> duplicate declaration of version (?) @ line 98, column 15
+[WARNING] 'dependencies.dependency.(groupId:artifactId:type:classifier)' must be unique: org.springframework.boot:spring-boot-starter-data-jpa:jar -> duplicate declaration of version (?) @ line 104, column 15
+[WARNING] 'dependencies.dependency.(groupId:artifactId:type:classifier)' must be unique: org.postgresql:postgresql:jar -> duplicate declaration of version (?) @ line 110, column 15
+[WARNING] 
+[WARNING] It is highly recommended to fix these problems because they threaten the stability of your build.
+[WARNING] 
+[WARNING] For this reason, future Maven versions might no longer support building such malformed projects.
+[WARNING] 
+[INFO] 
+[INFO] --------------------< sabor_gourmet:sabor_gourmet >---------------------
+[INFO] Building sabor_gourmet 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:3.5.7:run (default-cli) > test-compile @ sabor_gourmet >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ sabor_gourmet ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 15 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ sabor_gourmet ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ sabor_gourmet ---
+[INFO] Copying 0 resource from src\test\resources to target\test-classes
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ sabor_gourmet ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] <<< spring-boot:3.5.7:run (default-cli) < test-compile @ sabor_gourmet <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:3.5.7:run (default-cli) @ sabor_gourmet ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.7)
+
+2025-11-18T20:43:34.661-03:00  INFO 28424 --- [  restartedMain] s.sabor_gourmet.SaborGourmetApplication  : Starting SaborGourmetApplication using Java 21.0.8 with PID 28424 (C:\Users\blukh\dev U\DesarrolloWebII-Eva2-Sabor-Gourmet\target\classes started by blukh in C:\Users\blukh\dev U\DesarrolloWebII-Eva2-Sabor-Gourmet)
+2025-11-18T20:43:34.663-03:00  INFO 28424 --- [  restartedMain] s.sabor_gourmet.SaborGourmetApplication  : No active profile set, falling back to 1 default profile: "default"
+2025-11-18T20:43:34.804-03:00  INFO 28424 --- [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-11-18T20:43:34.804-03:00  INFO 28424 --- [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-11-18T20:43:35.141-03:00  INFO 28424 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-18T20:43:35.169-03:00  INFO 28424 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 22 ms. Found 3 JPA repository interfaces.
+2025-11-18T20:43:35.590-03:00  INFO 28424 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2025-11-18T20:43:35.599-03:00  INFO 28424 --- [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-11-18T20:43:35.599-03:00  INFO 28424 --- [  restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-11-18T20:43:35.626-03:00  INFO 28424 --- [  restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-11-18T20:43:35.626-03:00  INFO 28424 --- [  restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 821 ms
+2025-11-18T20:43:35.757-03:00  INFO 28424 --- [  restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-11-18T20:43:35.784-03:00  INFO 28424 --- [  restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.33.Final
+2025-11-18T20:43:35.802-03:00  INFO 28424 --- [  restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-11-18T20:43:35.941-03:00  INFO 28424 --- [  restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-18T20:43:35.963-03:00  INFO 28424 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-11-18T20:43:36.076-03:00  INFO 28424 --- [  restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@407ad33d
+2025-11-18T20:43:36.076-03:00  INFO 28424 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-11-18T20:43:36.097-03:00  WARN 28424 --- [  restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-11-18T20:43:36.107-03:00  INFO 28424 --- [  restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 18.1
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-11-18T20:43:36.579-03:00  INFO 28424 --- [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: create table clientes (id bigint generated by default as identity, apellido varchar(255), email varchar(255), nombre varchar(255), telefono varchar(255), primary key (id))
+Hibernate: create table mesas (id bigint generated by default as identity, capacidad integer not null, disponible boolean not null, numero integer not null, primary key (id))
+Hibernate: create table reserva (id bigint generated by default as identity, cantidad_personas integer not null, fecha date, tipo_menu varchar(255) check (tipo_menu in ('DESAYUNO','ALMUERZO','ONCE','CENA')), cliente_id bigint, mesa_id bigint not null, primary key (id))
+Hibernate: alter table if exists reserva add constraint FKr9fyv26u0ogp3xjkbecemy8sd foreign key (cliente_id) references clientes
+Hibernate: alter table if exists reserva add constraint FK5pb0drs0s7klr2ey97uuqvql6 foreign key (mesa_id) references mesas
+2025-11-18T20:43:36.626-03:00  INFO 28424 --- [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-18T20:43:36.767-03:00  INFO 28424 --- [  restartedMain] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-11-18T20:43:37.071-03:00  WARN 28424 --- [  restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-11-18T20:43:37.084-03:00  INFO 28424 --- [  restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2025-11-18T20:43:37.322-03:00  INFO 28424 --- [  restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://localhost:5432/sabor_gourmet'
+2025-11-18T20:43:37.344-03:00  INFO 28424 --- [  restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-11-18T20:43:37.348-03:00  INFO 28424 --- [  restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2025-11-18T20:43:37.389-03:00  INFO 28424 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2025-11-18T20:43:37.396-03:00  INFO 28424 --- [  restartedMain] s.sabor_gourmet.SaborGourmetApplication  : Started SaborGourmetApplication in 2.954 seconds (process running for 3.202)
+2025-11-18T20:43:37.491-03:00  INFO 28424 --- [nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-11-18T20:43:37.492-03:00  INFO 28424 --- [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-11-18T20:43:37.492-03:00  INFO 28424 --- [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+Hibernate: select m1_0.id,m1_0.capacidad,m1_0.disponible,m1_0.numero from mesas m1_0
+Hibernate: select m1_0.id,m1_0.capacidad,m1_0.disponible,m1_0.numero from mesas m1_0
+Hibernate: select m1_0.id,m1_0.capacidad,m1_0.disponible,m1_0.numero from mesas m1_0
+Hibernate: select m1_0.id,m1_0.capacidad,m1_0.disponible,m1_0.numero from mesas m1_0
+2025-11-18T20:44:40.724-03:00  INFO 28424 --- [   File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2025-11-18T20:44:40.726-03:00  INFO 28424 --- [       Thread-5] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-11-18T20:44:40.732-03:00  INFO 28424 --- [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-11-18T20:44:40.735-03:00  INFO 28424 --- [       Thread-5] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-11-18T20:44:40.739-03:00  INFO 28424 --- [       Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-11-18T20:44:40.742-03:00  INFO 28424 --- [       Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.7)
+
+2025-11-18T20:44:40.819-03:00  INFO 28424 --- [  restartedMain] s.sabor_gourmet.SaborGourmetApplication  : Starting SaborGourmetApplication using Java 21.0.8 with PID 28424 (C:\Users\blukh\dev U\DesarrolloWebII-Eva2-Sabor-Gourmet\target\classes started by blukh in C:\Users\blukh\dev U\DesarrolloWebII-Eva2-Sabor-Gourmet)
+2025-11-18T20:44:40.819-03:00  INFO 28424 --- [  restartedMain] s.sabor_gourmet.SaborGourmetApplication  : No active profile set, falling back to 1 default profile: "default"
+2025-11-18T20:44:41.014-03:00  INFO 28424 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-18T20:44:41.026-03:00  INFO 28424 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 11 ms. Found 3 JPA repository interfaces.
+2025-11-18T20:44:41.181-03:00  INFO 28424 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-11-18T20:44:41.182-03:00  INFO 28424 --- [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-11-18T20:44:41.182-03:00  INFO 28424 --- [  restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-11-18T20:44:41.204-03:00  INFO 28424 --- [  restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-11-18T20:44:41.204-03:00  INFO 28424 --- [  restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 382 ms
+2025-11-18T20:44:41.252-03:00  INFO 28424 --- [  restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-11-18T20:44:41.256-03:00  INFO 28424 --- [  restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-11-18T20:44:41.264-03:00  INFO 28424 --- [  restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-18T20:44:41.264-03:00  INFO 28424 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2025-11-18T20:44:41.404-03:00  INFO 28424 --- [  restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@506519d1
+2025-11-18T20:44:41.405-03:00  INFO 28424 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2025-11-18T20:44:41.409-03:00  WARN 28424 --- [  restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-11-18T20:44:41.410-03:00  INFO 28424 --- [  restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-2)']
+	Database driver: undefined/unknown
+	Database version: 18.1
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-11-18T20:44:41.470-03:00  INFO 28424 --- [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-11-18T20:44:41.501-03:00  INFO 28424 --- [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-18T20:44:41.569-03:00  WARN 28424 --- [  restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-11-18T20:44:41.577-03:00  INFO 28424 --- [  restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2025-11-18T20:44:41.676-03:00  INFO 28424 --- [  restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://localhost:5432/sabor_gourmet'
+2025-11-18T20:44:41.683-03:00  INFO 28424 --- [  restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-11-18T20:44:41.685-03:00  INFO 28424 --- [  restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2025-11-18T20:44:41.702-03:00  WARN 28424 --- [  restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2025-11-18T20:44:41.704-03:00  INFO 28424 --- [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-11-18T20:44:41.705-03:00  INFO 28424 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
+2025-11-18T20:44:41.718-03:00  INFO 28424 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
+2025-11-18T20:44:41.727-03:00  INFO 28424 --- [  restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-11-18T20:44:41.745-03:00 ERROR 28424 --- [  restartedMain] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.7)
+
+2025-11-18T20:47:02.510-03:00  INFO 28424 --- [  restartedMain] s.sabor_gourmet.SaborGourmetApplication  : Starting SaborGourmetApplication using Java 21.0.8 with PID 28424 (C:\Users\blukh\dev U\DesarrolloWebII-Eva2-Sabor-Gourmet\target\classes started by blukh in C:\Users\blukh\dev U\DesarrolloWebII-Eva2-Sabor-Gourmet)
+2025-11-18T20:47:02.510-03:00  INFO 28424 --- [  restartedMain] s.sabor_gourmet.SaborGourmetApplication  : No active profile set, falling back to 1 default profile: "default"
+2025-11-18T20:47:02.609-03:00  INFO 28424 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-18T20:47:02.615-03:00  INFO 28424 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 5 ms. Found 3 JPA repository interfaces.
+2025-11-18T20:47:02.687-03:00  INFO 28424 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2025-11-18T20:47:02.688-03:00  INFO 28424 --- [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-11-18T20:47:02.688-03:00  INFO 28424 --- [  restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-11-18T20:47:02.698-03:00  INFO 28424 --- [  restartedMain] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2025-11-18T20:47:02.699-03:00  INFO 28424 --- [  restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 187 ms
+2025-11-18T20:47:02.724-03:00  INFO 28424 --- [  restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-11-18T20:47:02.726-03:00  INFO 28424 --- [  restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-11-18T20:47:02.730-03:00  INFO 28424 --- [  restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-18T20:47:02.731-03:00  INFO 28424 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Starting...
+2025-11-18T20:47:02.760-03:00  INFO 28424 --- [  restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Added connection org.postgresql.jdbc.PgConnection@47ae2bfa
+2025-11-18T20:47:02.760-03:00  INFO 28424 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Start completed.
+2025-11-18T20:47:02.764-03:00  WARN 28424 --- [  restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-11-18T20:47:02.764-03:00  INFO 28424 --- [  restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-3)']
+	Database driver: undefined/unknown
+	Database version: 18.1
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-11-18T20:47:02.793-03:00  INFO 28424 --- [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-11-18T20:47:02.818-03:00  INFO 28424 --- [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-18T20:47:02.854-03:00  WARN 28424 --- [  restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-11-18T20:47:02.857-03:00  INFO 28424 --- [  restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2025-11-18T20:47:02.910-03:00  INFO 28424 --- [  restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://localhost:5432/sabor_gourmet'
+2025-11-18T20:47:02.913-03:00  INFO 28424 --- [  restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-11-18T20:47:02.915-03:00  INFO 28424 --- [  restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2025-11-18T20:47:02.925-03:00  INFO 28424 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2025-11-18T20:47:02.928-03:00  INFO 28424 --- [  restartedMain] s.sabor_gourmet.SaborGourmetApplication  : Started SaborGourmetApplication in 0.431 seconds (process running for 208.734)
+2025-11-18T20:47:02.930-03:00  INFO 28424 --- [  restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged

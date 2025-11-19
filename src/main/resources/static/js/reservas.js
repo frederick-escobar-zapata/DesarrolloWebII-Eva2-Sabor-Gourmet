@@ -1,31 +1,46 @@
 
-// Principalmente valida la fecha y evita que el usuario mande cosas raras (fecha vacia o pasada)
+// Valida fecha y controla la UI de reservas
 
 document.addEventListener('DOMContentLoaded', () => {
-    // en sta función se ejecuta cuando el HTML ya terminó de cargarse
+    // Ejecutar tras carga del DOM
 
-    const form = document.getElementById('reservaForm');      // el formulario principal de reserva
-    const fechaInput = document.getElementById('fechaReserva'); // input type="date" donde el user elige el dia
-    const fechaError = document.getElementById('fechaError'); // div donde mostramos el error de fecha
+    const form = document.getElementById('reservaForm');      // formulario principal
+    const fechaInput = document.getElementById('fechaReserva'); // input fecha
+    const fechaError = document.getElementById('fechaError'); // contenedor error fecha
 
-    // Si por algun motivo no estamos en la pagina que tiene estos elementos, salimos
+    // salir si no estamos en la página
     if (!form || !fechaInput) {
         return;
     }
 
-    // aca sacamos la fecha actual (hoy) desde JS
-    const hoy = new Date();
-    const año = hoy.getFullYear();
-    const mes = String(hoy.getMonth() + 1).padStart(2, '0'); // getMonth es 0-11, por eso +1
-    const dia = String(hoy.getDate()).padStart(2, '0');
+    // Inicializar Flatpickr (si está)
+    try {
+        flatpickr.localize(flatpickr.l10ns.es);
+    } catch (e) {
+        // si falta Flatpickr, usar fallback
+    }
+    const today = new Date();
+    const fechaMinima = today.toISOString().slice(0,10);
 
-    // armamos la fecha minima en formato yyyy-MM-dd que usa el input date
-    const fechaMinima = `${año}-${mes}-${dia}`;
+    if (typeof flatpickr !== 'undefined') {
+        // Al elegir fecha actualizar disponibilidad y botones
+        flatpickr(fechaInput, {
+            dateFormat: 'Y-m-d',
+            minDate: fechaMinima,
+            locale: 'es',
+            onChange: function(selectedDates, dateStr) {
+                // actualizar input y UI
+                fechaInput.value = dateStr;
+                triggerFetch();
+                updateTipoButtons();
+            }
+        });
+    } else {
+        // fallback nativo
+        fechaInput.setAttribute('min', fechaMinima);
+    }
 
-    // le decimos al input que no acepte fechas menores a hoy (minima)
-    fechaInput.setAttribute('min', fechaMinima);
-
-    // aca escuchamos el evento submit del formulario
+    // validar al enviar formulario
     form.addEventListener('submit', (e) => {
         // Validamos que la fecha no este vacia
         if (!fechaInput.value) {
@@ -45,11 +60,178 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Si la fecha es valida, limpiamos el mensaje de error (si es que habia)
+        // limpiar mensaje si pasa validación
         if (fechaError) {
             fechaError.textContent = '';
         }
 
         
     });
+
+    // El tipo se elige desde las tarjetas
+
+    // Obtener disponibilidad por fecha
+    const availCountEl = document.getElementById('availCount');
+    const availListEl = document.getElementById('availList');
+    async function fetchAvailability(fecha, tipoMenu) {
+        if (!fecha) {
+            if (availCountEl) availCountEl.textContent = '-';
+            if (availListEl) availListEl.innerHTML = '';
+            return;
+        }
+        try {
+            const params = new URLSearchParams();
+            params.set('fecha', fecha);
+            if (tipoMenu) params.set('tipoMenu', tipoMenu);
+            const resp = await fetch(`/reservas/available?${params.toString()}`);
+            if (!resp.ok) throw new Error('Network response was not ok');
+            const data = await resp.json();
+
+            if (availCountEl) availCountEl.textContent = String(data.count || 0);
+
+            if (availListEl) {
+                availListEl.innerHTML = '';
+                const mesas = data.mesas || [];
+                if (mesas.length === 0) {
+                    availListEl.innerHTML = '<div class="col-12"><div class="alert alert-info">No hay mesas disponibles para esa fecha.</div></div>';
+                } else {
+                    mesas.forEach(m => {
+                        const col = document.createElement('div');
+                        col.className = 'col-6 mb-2';
+                        const ALL_TIPOS = ['desayuno','almuerzo','once','cena'];
+                        let badges = '';
+                        const available = Array.isArray(m.availableTipos) ? m.availableTipos : [];
+                        ALL_TIPOS.forEach(t => {
+                            const isAvailable = available.includes(t);
+                            badges += `
+                                <button type="button" class="btn btn-sm tipo-badge ${isAvailable ? 'btn-outline-success' : 'btn-outline-secondary disabled'} me-1" data-tipo="${t}" ${isAvailable ? '' : 'disabled'}>${t.toUpperCase()}</button>
+                            `;
+                        });
+                        col.innerHTML = `
+                            <div class="card p-2 h-100" data-mesa-id="${m.id}">
+                                <div class="card-body p-2">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <div class="w-50">
+                                            <h6 class="mb-0">Mesa N° ${m.numero}</h6>
+                                        </div>
+                                        <div class="w-50 text-end">
+                                            <p class="mb-0 small">Capacidad: <strong>${m.capacidad}</strong></p>
+                                        </div>
+                                    </div>
+                                    <div class="mesa-tipos mt-2">${badges}</div>
+                                </div>
+                            </div>`;
+                        if (tipoMenu && Array.isArray(m.availableTipos) && !m.availableTipos.includes(tipoMenu)) {
+                        } else {
+                            availListEl.appendChild(col);
+                        }
+                    });
+                    updateTipoButtons();
+                }
+            }
+
+        } catch (err) {
+            console.error('Error fetching availability', err);
+            if (availCountEl) availCountEl.textContent = '-';
+            if (availListEl) availListEl.innerHTML = '<div class="col-12"><div class="alert alert-danger">Error al obtener disponibilidad.</div></div>';
+        }
+    }
+
+    function triggerFetch() {
+        const fecha = fechaInput.value;
+        fetchAvailability(fecha, null);
+    }
+
+    fechaInput.addEventListener('change', () => {
+        triggerFetch();
+        updateTipoButtons();
+    });
+
+    function isFormValid() {
+        const fecha = fechaInput.value;
+        if (!fecha) return false;
+        if (fecha < fechaMinima) return false;
+        const cantidadRaw = document.getElementById('cantidadPersonas') ? document.getElementById('cantidadPersonas').value : null;
+        const cantidad = parseInt(cantidadRaw, 10);
+        if (isNaN(cantidad) || cantidad <= 0) return false;
+        return true;
+    }
+
+    function updateTipoButtons() {
+        const formOk = isFormValid();
+        const buttons = document.querySelectorAll('.tipo-badge');
+        buttons.forEach(btn => {
+            const originallyDisabled = btn.classList.contains('disabled') && btn.hasAttribute('disabled');
+            if (originallyDisabled) {
+                btn.setAttribute('disabled', 'disabled');
+                btn.classList.add('disabled');
+                btn.setAttribute('title', 'No disponible');
+                return;
+            }
+            if (!formOk) {
+                btn.setAttribute('disabled', 'disabled');
+                btn.classList.add('disabled');
+                btn.setAttribute('title', 'Complete fecha y cantidad');
+            } else {
+                btn.removeAttribute('disabled');
+                btn.classList.remove('disabled');
+                btn.removeAttribute('title');
+            }
+        });
+    }
+
+    const cantidadSelect = document.getElementById('cantidadPersonas');
+    if (cantidadSelect) {
+        // Al cambiar cantidad, actualizar botones y disponibilidad
+        cantidadSelect.addEventListener('change', () => {
+            updateTipoButtons();
+            triggerFetch();
+        });
+    }
+
+    if (availListEl) {
+        availListEl.addEventListener('click', (ev) => {
+        const btn = ev.target.closest('.tipo-badge');
+        if (!btn) return;
+        const tipo = btn.getAttribute('data-tipo');
+
+        // tipo desde botón
+
+        // validar fecha y cantidad
+        const fecha = fechaInput.value;
+        const cantidadRaw = document.getElementById('cantidadPersonas') ? document.getElementById('cantidadPersonas').value : null;
+        const cantidad = parseInt(cantidadRaw, 10);
+        if (!fecha) {
+            if (fechaError) fechaError.textContent = 'Seleccione una fecha antes de reservar.';
+            return;
+        }
+        if (isNaN(cantidad) || cantidad <= 0) {
+            alert('Seleccione la cantidad de personas antes de reservar.');
+            return;
+        }
+
+        // Obtener id de mesa y redirigir a reservar/cliente
+        const card = btn.closest('.card');
+        const mesaId = card ? card.getAttribute('data-mesa-id') : null;
+        if (mesaId) {
+            // redirigir con params
+            const params = new URLSearchParams();
+            params.set('mesaId', mesaId);
+            params.set('fecha', fecha);
+            params.set('cantidadPersonas', String(cantidad));
+            params.set('tipoMenu', tipo);
+            window.location.href = `/reservar/cliente?${params.toString()}`;
+            return;
+        }
+        // fallback: enviar formulario
+        form.submit();
+    });
+    }
+
+    // Si la página carga con fecha preseleccionada, obtener disponibilidad
+    if (fechaInput.value) {
+        triggerFetch();
+    }
+    // actualizar botones según estado inicial
+    updateTipoButtons();
 });
