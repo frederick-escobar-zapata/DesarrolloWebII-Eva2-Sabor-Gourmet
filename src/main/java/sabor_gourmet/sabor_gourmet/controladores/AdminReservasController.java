@@ -17,6 +17,22 @@ public class AdminReservasController {
     @Autowired
     private ReservaRepository reservaRepository;
 
+    // GET /admin/reservas?fecha=yyyy-MM-dd  -> lista reservas por fecha (por defecto hoy)
+    @GetMapping
+    public String listarPorFecha(@RequestParam(value = "fecha", required = false) String fechaStr, Model model) {
+        java.time.LocalDate fecha;
+        try {
+            fecha = (fechaStr == null || fechaStr.isBlank()) ? java.time.LocalDate.now() : java.time.LocalDate.parse(fechaStr);
+        } catch (Exception e) {
+            fecha = java.time.LocalDate.now();
+        }
+
+        java.util.List<Reserva> reservas = reservaRepository.findByFecha(fecha);
+        model.addAttribute("reservas", reservas);
+        model.addAttribute("fechaSeleccionada", fecha);
+        return "admin_reservas";
+    }
+
     // GET /admin/reservas/editar/{id}  -> muestra formulario para editar la reserva
     @GetMapping("/editar/{id}")
     public String mostrarFormularioEditar(@PathVariable("id") Long id, Model model) {
