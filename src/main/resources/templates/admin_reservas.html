@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/master}">
+<head>
+    <title>Reservas - Administración</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Reservas por día</h2>
+        </div>
+
+        <form class="row g-2 align-items-center mb-3" method="get" th:action="@{/admin/reservas}">
+            <div class="col-auto">
+                <label for="fecha" class="col-form-label">Fecha</label>
+            </div>
+            <div class="col-auto">
+                <input id="fecha" name="fecha" class="form-control" type="text" th:value="${fechaSeleccionada}" placeholder="Selecciona fecha">
+            </div>
+            <div class="col-auto">
+                <button class="btn btn-primary" type="submit">Ver</button>
+            </div>
+        </form>
+
+        <div th:if="${#lists.isEmpty(reservas)}" class="alert alert-info">No hay reservas para la fecha seleccionada.</div>
+
+        <table th:if="${!#lists.isEmpty(reservas)}" class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Mesa</th>
+                <th>Fecha</th>
+                <th>Tipo</th>
+                <th>Personas</th>
+                <th>Cliente</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="res : ${reservas}">
+                <td th:text="${res.id}">1</td>
+                <td th:text="${res.mesa != null ? (res.mesa.numero != 0 ? res.mesa.numero : res.mesa.id) : 'N/A'}">Mesa</td>
+                <td th:text="${#temporals.format(res.fecha, 'dd/MM/yyyy')}">14/11/2025</td>
+                <td th:text="${res.tipoMenu}">CENA</td>
+                <td th:text="${res.cantidadPersonas}">4</td>
+                <td th:text="${res.cliente != null ? res.cliente.nombre + ' ' + res.cliente.apellido : 'Sin cliente'}">Juan Perez</td>
+                <td>
+                    <button type="button" class="btn btn-sm btn-info btn-view" 
+                            th:attr="data-id=${res.id},data-nombre=${res.cliente != null ? res.cliente.nombre : ''},data-apellido=${res.cliente != null ? res.cliente.apellido : ''},data-email=${res.cliente != null ? res.cliente.email : ''},data-telefono=${res.cliente != null ? res.cliente.telefono : ''},data-mesa=${res.mesa != null ? (res.mesa.numero != 0 ? res.mesa.numero : res.mesa.id) : ''},data-fecha=${#temporals.format(res.fecha,'dd/MM/yyyy')},data-tipo=${res.tipoMenu},data-cantidad=${res.cantidadPersonas}">Ver</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <!-- Modal de detalles -->
+    <div class="modal fade" id="detalleModal" tabindex="-1" aria-labelledby="detalleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detalleModalLabel">Detalle de la reserva</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>ID:</strong> <span id="dId"></span></p>
+                    <p><strong>Mesa:</strong> <span id="dMesa"></span></p>
+                    <p><strong>Fecha:</strong> <span id="dFecha"></span></p>
+                    <p><strong>Tipo:</strong> <span id="dTipo"></span></p>
+                    <p><strong>Personas:</strong> <span id="dCantidad"></span></p>
+                    <hr>
+                    <p><strong>Nombre:</strong> <span id="dNombre"></span></p>
+                    <p><strong>Email:</strong> <span id="dEmail"></span></p>
+                    <p><strong>Teléfono:</strong> <span id="dTelefono"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <form id="deleteForm" method="post" th:action="@{/admin/reservas/eliminar/{id}(id=0)}" onsubmit="return confirm('¿Está seguro que desea cancelar esta reserva?');">
+                        <button type="submit" class="btn btn-danger">Cancelar reserva</button>
+                    </form>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    // inicializar flatpickr en el input fecha (misma configuración que en reservas.js)
+    document.addEventListener('DOMContentLoaded', function(){
+    (function(){
+        try {
+            // preparar localización
+            if (window.flatpickr) {
+                try { flatpickr.localize(flatpickr.l10ns.es); } catch(e) { }
+                const today = new Date();
+                const fechaMinima = today.toISOString().slice(0,10);
+                flatpickr('#fecha', {
+                    dateFormat: 'Y-m-d',
+                    minDate: fechaMinima,
+                    locale: 'es',
+                    defaultDate: document.querySelector('#fecha').value || new Date(),
+                    onChange: function(selectedDates, dateStr) {
+                        // actualizar input y reenviar formulario para mostrar reservas de la nueva fecha
+                        const input = document.querySelector('#fecha');
+                        if (input) input.value = dateStr;
+                        const form = input ? input.closest('form') : null;
+                        if (form) form.submit();
+                    }
+                });
+            }
+        } catch(e) { }
+
+        // listeners para botones Ver
+        document.querySelectorAll('.btn-view').forEach(function(btn){
+            btn.addEventListener('click', function(){
+                const id = btn.getAttribute('data-id');
+                document.getElementById('dId').textContent = id || '';
+                document.getElementById('dMesa').textContent = btn.getAttribute('data-mesa') || '';
+                document.getElementById('dFecha').textContent = btn.getAttribute('data-fecha') || '';
+                document.getElementById('dTipo').textContent = btn.getAttribute('data-tipo') || '';
+                document.getElementById('dCantidad').textContent = btn.getAttribute('data-cantidad') || '';
+                document.getElementById('dNombre').textContent = (btn.getAttribute('data-nombre') || '') + ' ' + (btn.getAttribute('data-apellido') || '');
+                document.getElementById('dEmail').textContent = btn.getAttribute('data-email') || '';
+                document.getElementById('dTelefono').textContent = btn.getAttribute('data-telefono') || '';
+
+                // actualizar acción del formulario de eliminación
+                const deleteForm = document.getElementById('deleteForm');
+                if (deleteForm) {
+                    deleteForm.setAttribute('action', '/admin/reservas/eliminar/' + id);
+                }
+
+                // mostrar modal (Bootstrap)
+                const detalleEl = document.getElementById('detalleModal');
+                if (detalleEl && window.bootstrap) {
+                    new bootstrap.Modal(detalleEl).show();
+                }
+            });
+        });
+    })();
+    });
+    </script>
+
+</div>
+</body>
+</html>
