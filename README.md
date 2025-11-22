@@ -1,11 +1,16 @@
 **Proyecto Sabor Gourmet**
 
 **Grupo C3**
-Integrantes
--José Luis Espinoza (Bludegar)
--Frederick Escobar
--Gonzalo Croft
 
+Integrantes:
+
+- Jose Luis Espinoza (Bludegar)
+- Frederick Escobar
+- Gonzalo Croft
+
+**Profesor, tuvimos un poco de dudas con respecto a la forma en que necesitaba documentaramos el proyecto, por lo que, alineandonos con otros ramos, dejamos los comentarios referentes al proyecto directamente aca en el readme**
+
+**Proyecto Sabor Gourmet**
 
 Resumen
 - **proposito**: proyecto de ejemplo para gestionar reservas de un restaurante. incluye vistas publicas para ver disponibilidad y reservar, y vistas de admin para listar y cancelar reservas.
@@ -23,8 +28,8 @@ Tecnologias
 Estructura del proyecto (resumen)
 - **puntos de entrada**: la clase principal es `SaborGourmetApplication` en `src/main/java/...`.
 - **controladores**: en `src/main/java/sabor_gourmet/sabor_gourmet/controladores/` — ahi se manejan rutas publicas y admin.
-  - `ReservaPublicaController` / `MesasController`: flujo publico (listar disponibilidad, redirigir a reservar cliente).
-  - `AdminReservasController` / `AdminDisponibilidadController`: vistas admin, listar reservas por fecha y detalle/cancelar.
+-  - `ReservaPublicaController` / `MesasController`: flujo publico (listar disponibilidad, redirigir a reservar cliente).
+-  - `AdminReservasController` / `AdminDisponibilidadController`: vistas admin, listar reservas por fecha y detalle/cancelar.
 - **servicios**: `servicios/` contiene la logica de negocio que orquesta repositorios y validaciones.
 - **repositorios**: `repositorios/` usa Spring Data JPA para acceder a las entidades.
 - **modelos**: entidades JPA en `modelos/` como `Cliente`, `Mesas`, `Reserva`, `TipoMenu`.
@@ -114,23 +119,7 @@ Logica y partes importantes (explicacion detallada)
 - **layout/master.html**: contiene el header/footer comun, importa `bootstrap` y `flatpickr` via CDN, y define el fragment `content` donde se insertan las plantillas especificas.
 
 Decisiones de implementacion y justificacion
-- se opto por Thymeleaf para simplificar integracion server-side y permitir renderizado inicial SEO-friendly.
 - el datepicker `flatpickr` provee buenas opciones de localizacion y bloqueo de fechas pasadas; en caso de no tenerlo se aplica un fallback con `min` en el input.
 - la logica de disponibilidad es server-driven: el servidor es la fuente de verdad, el cliente solo solicita y renderiza. esto evita inconsistencias por estado en el cliente.
 
-Notas sobre el repo y cambios recientes
-- algunos archivos se restauraron desde los artefactos compilados (`target/classes`) porque se realizaron pruebas de refactor y no se habia comiteado. si ves archivos modificados, revisa `git status`.
 
-Recomendaciones y siguientes pasos
-- revisa `src/main/resources/application.properties` para adaptar puertos y conexion DB.
-- si vas a desplegar en produccion:
-  - usar credenciales seguras (no en repo)
-  - habilitar migration tool (flyway/liquibase) para manejar esquemas
-  - configurar pool de conexiones y timeouts
-
-Contacto rapido (si necesitas que haga algo mas)
-- puedo: añadir un script `setup-db.sh` para crear la base, agregar `README` de despliegue en docker, o limpiar el estado git y commitear los cambios restaurados.
-
-Fin del README.
-
-*** NOTA: este README fue escrito para ser legible y detallado; si quieres que lo adapte a un estilo mas tecnico o lo traduzca a ingles dime y lo actualizo.
